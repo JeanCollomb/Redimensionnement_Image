@@ -24,10 +24,11 @@ resize_method = Image.ANTIALIAS
 ###############################################################################
 ###----> Parametres
     
-max_hauteur     = 1080                                                          # Hauteur maximal de l'image finale
-max_largeur     = 1920                                                          # Largeur maximal de l'image finale
+max_hauteur     = 1080                                                         # Hauteur maximal de l'image finale
+max_largeur     = 1920                                                         # Largeur maximal de l'image finale
 extensions      = ['JPG', 'PNG', 'BMP']                                        # Extensions des images à modifier (mettre en MAJUSCULE)
-ajout_nom       = '_500px'                                                     # Ajout d'une info pour renommer le fichier
+ajout_nom       = '_light'                                                     # Ajout d'une info pour renommer le fichier
+conversion_pdf  = 'oui'                                                        # Faut il créer un fichier pdf ?
 
 ###############################################################################
 ###----> Fonction
@@ -59,6 +60,7 @@ if __name__ == "__main__":
             
             if f_ext in extensions:
                 nouveau_nom = f_text + ajout_nom + '.' + f_ext
+                nouveau_nom_bis = f_text + ajout_nom + '.' + 'pdf'
 
                 image = Image.open(join(dossier,fichier))                      # Ouverture de l'image
                 largeur, hauteur= image.size                                   # Récupération des dimensions
@@ -66,6 +68,8 @@ if __name__ == "__main__":
                 if largeur > max_largeur and hauteur > max_hauteur:            # Si le fichier est à redimensionner
                     image = image.resize(adjustement_taille(largeur, hauteur)) # Redimensionnement
                     image.save(join(dossier,nouveau_nom))                      # Sauvegarde
+                    if conversion_pdf == 'oui':
+                        image.save(join(dossier,nouveau_nom_bis),"PDF", Quality = 300)                      # Sauvegarde
                     print ('Fichier :', nouveau_nom, ': Done !')
 
 ###############################################################################
